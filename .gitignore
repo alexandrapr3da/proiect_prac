@@ -1,0 +1,48 @@
+# --- Sistem de operare Windows ---
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+Icon?
+
+# --- Fișiere temporare generale ---
+*~
+~$*
+*.tmp
+*.bak
+*.backup
+*.orig
+*.swp
+*.log
+
+# --- IDE / editori comuni ---
+.vscode/
+.idea/
+*.suo
+*.user
+*.userprefs
+*.userosscache
+*.sln.docstates
+
+# --- Build/output (ex. .NET / Visual Studio) ---
+bin/
+obj/
+Debug/
+Release/
+*.ilk
+*.meta
+*.obj
+*.pdb
+*.ipch/
+*.iobj
+
+# --- Module/dependințe (dacă folosești Node.js ca exemplu) ---
+node_modules/
+
+# --- Foldere de distribuție / build generice ---
+dist/
+build/
+
+# --- Cache-uri ---
+*.cache
