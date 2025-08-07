@@ -1,7 +1,7 @@
 from database import Base, engine
+from models.models import User, Feature, Comment, Vote, Repository
 
-def init_db():
-    Base.metadata.create_all(bind=engine)
-
-if __name__ == "__main__":
-    init_db()
+print(Base.metadata.tables.keys())
+print("Creating tables...")
+Base.metadata.create_all(bind=engine)
+print("All tables created.")

@@ -9,11 +9,14 @@ import os
 from database import SessionLocal
 from models.models import User
 from schemas.User import UserCreate, UserOut, Token
-from routers import features
+from routers import features, comments, votes, repositories
 
 app = FastAPI()
 
 app.include_router(features.router)
+app.include_router(comments.router)
+app.include_router(votes.router)
+app.include_router(repositories.router)
 
 load_dotenv()
 
