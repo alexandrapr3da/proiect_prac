@@ -1,50 +1,29 @@
-from fastapi import APIRouter, Depends, HTTPException, status, FastAPI
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from jose import JWTError, jwt
-from passlib.context import CryptContext
-from datetime import datetime, timedelta
 from dotenv import load_dotenv
 import os
+
 from database import SessionLocal
 from models.models import User
-from schemas.User import UserCreate, UserOut, Token
+from schemas.auth import GitHubLogin, Token
+from utils.github import get_github_user
 from routers import features, comments, votes, repositories
-
-app = FastAPI()
-
-app.include_router(features.router)
-app.include_router(comments.router)
-app.include_router(votes.router)
-app.include_router(repositories.router)
+from datetime import datetime, timedelta
+from jose import jwt, JWTError
 
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY is not set in .env file")
-
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-router = APIRouter()
-
-def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
-
-def get_password_hash(password):
-    return pwd_context.hash(password)
-
-def create_access_token(data: dict):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+app = FastAPI()
+app.include_router(features.router)
+app.include_router(comments.router)
+app.include_router(votes.router)
+app.include_router(repositories.router)
 
 def get_db():
     db = SessionLocal()
@@ -53,22 +32,37 @@ def get_db():
     finally:
         db.close()
 
-@app.post("/register", response_model=UserOut)
-async def register(user: UserCreate, db: Session = Depends(get_db)):
-    db_user = db.query(User).filter(User.username == user.username).first()
-    if db_user:
-        raise HTTPException(status_code=400, detail="Username already registered")
-    hashed_password = get_password_hash(user.password)
-    db_user = User(username=user.username, password_hash=hashed_password)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+def create_access_token(sub: str) -> str:
+    to_encode = {"sub": sub, "exp": datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)}
+    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 @app.post("/token", response_model=Token)
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = db.query(User).filter(User.username == form_data.username).first()
-    if not user or not verify_password(form_data.password, user.password_hash):
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
-    access_token = create_access_token(data={"sub": user.username})
+def login_with_github(payload: GitHubLogin, db: Session = Depends(get_db)):
+    """
+    Accepts: { "github_token": "<PAT>" }
+    Validates with GitHub /user, upserts local user, returns JWT.
+    """
+    try:
+        gh_user = get_github_user(payload.github_token)
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=str(e))
+
+    username = gh_user.get("login")
+    gh_id = str(gh_user.get("id"))
+
+    if not username or not gh_id:
+        raise HTTPException(status_code=400, detail="GitHub user data incomplete")
+
+    user = db.query(User).filter(User.github_id == gh_id).first()
+    if not user:
+        user = User(username=username, github_id=gh_id)
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+    else:
+        if user.username != username:
+            user.username = username
+            db.commit()
+
+    access_token = create_access_token(sub=username)
     return {"access_token": access_token, "token_type": "bearer"}

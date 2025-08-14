@@ -4,16 +4,12 @@ from typing import List
 from models.models import Feature, User
 from schemas.feature import FeatureCreate, FeatureOut, FeatureUpdate
 from database import SessionLocal
-from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer
-from datetime import datetime
-import os
+import requests
 
 router = APIRouter(prefix="/features", tags=["Features"])
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = "HS256"
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")  # still used for extracting token from header
 
 # Dependency: DB session
 def get_db():
@@ -23,21 +19,34 @@ def get_db():
     finally:
         db.close()
 
-# Dependency: Authenticated user
+# New: GitHub token-based authentication
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username = payload.get("sub")
-        if username is None:
-            raise credentials_exception
-    except JWTError:
-        raise credentials_exception
+    # Validate token with GitHub API
+    headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github+json"}
+    response = requests.get("https://api.github.com/user", headers=headers)
 
-    user = db.query(User).filter(User.username == username).first()
-    if user is None:
-        raise credentials_exception
+    if response.status_code != 200:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid GitHub token"
+        )
+
+    github_user = response.json()
+    username = github_user.get("login")
+    github_id = str(github_user.get("id"))
+    
+    if not username or not github_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="GitHub username not found"
+        )
+
+    # Find or create local user
+    user = db.query(User).filter(User.github_id == github_id).first()
+    if not user:
+        user = User(username=username, github_id=github_id)  # password not used anymore
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
     return user

@@ -1,5 +1,8 @@
 from github import Github
 import os
+import requests
+
+GITHUB_API_BASE = "https://api.github.com"
 
 def search_github_repos(query: str, token: str):
     try:
@@ -32,3 +35,21 @@ def get_issues_from_repo(repo_full_name: str, token: str):
         } for issue in issues]
     except Exception as e:
         return {"error": str(e)}
+    
+
+def get_github_user(pat: str):
+    """
+    Validate a GitHub Personal Access Token by calling /user.
+    Returns dict with at least: {'login': 'username', 'id': 123456, ...}
+    Raises ValueError if invalid.
+    """
+    headers = {"Authorization": f"token {pat}", "Accept": "application/vnd.github+json"}
+    resp = requests.get(f"{GITHUB_API_BASE}/user", headers=headers, timeout=15)
+    if resp.status_code != 200:
+        # Surface useful error message
+        try:
+            detail = resp.json()
+        except Exception:
+            detail = resp.text
+        raise ValueError(f"GitHub token invalid or unauthorized: {detail}")
+    return resp.json() 

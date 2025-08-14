@@ -7,8 +7,14 @@ from typing import Optional
 from database import SessionLocal
 from utils.github import search_github_repos, get_issues_from_repo
 from routers.features import get_db
+from pydantic import BaseModel
+from github import Github
 
 router = APIRouter(prefix="/repos", tags=["Repositories"])
+
+class RepoSyncRequest(BaseModel):
+    repo_full_name: str
+    github_token: str
 
 @router.get("/search")
 def search_repositories(query: str = Query(...), token: str = Header()):
@@ -25,20 +31,17 @@ def add_repository(repo: RepositoryCreate, db: Session = Depends(get_db)):
     db.refresh(new_repo)
     return new_repo
 
-@router.post("/sync/{repo_full_name}", response_model=dict)
+@router.post("/sync", response_model=dict)
 def sync_github_issues(
-    repo_full_name: str,
-    token: str = Header(...),
+    request: RepoSyncRequest,
     db: Session = Depends(get_db),
 ):
-    from github import Github, GithubException
+    g = Github(request.github_token)
 
-    # try:
-    g = Github(token)
-    print(repo_full_name)
-    print(g)
-    repo_obj = g.get_repo("tiangolo/fastapi")  # Fetch repo from GitHub
-    print(repo_obj)
+    try:
+        repo_obj = g.get_repo(request.repo_full_name)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error fetching repo: {e}")
 
     # Check if repo exists in DB
     repo = db.query(Repository).filter(Repository.github_id == str(repo_obj.id)).first()
@@ -60,7 +63,6 @@ def sync_github_issues(
 
     added = 0
     for issue in issues:
-        # Skip pull requests (GitHub returns them as issues sometimes)
         if issue.pull_request is not None:
             continue
 
@@ -75,10 +77,10 @@ def sync_github_issues(
                 description=issue.body or "No description provided.",
                 status="open",
                 repository=repo,
-                user_id=None,  # Could be set if authenticated user is syncing
+                user_id=None,
             )
             db.add(feature)
             added += 1
 
     db.commit()
-    return {"message": f"{added} issues synced from {repo_full_name}"}
+    return {"message": f"{added} issues synced from {request.repo_full_name}"}
