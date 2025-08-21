@@ -10,6 +10,7 @@ from utils.github import get_github_user
 from routers import features, comments, votes, repositories
 from datetime import datetime, timedelta
 from jose import jwt, JWTError
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 
@@ -20,6 +21,16 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 app = FastAPI()
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(features.router)
 app.include_router(comments.router)
 app.include_router(votes.router)

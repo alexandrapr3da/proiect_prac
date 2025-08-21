@@ -1,41 +1,67 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaBars, FaBook, FaExclamationCircle, FaInbox, FaUserCircle, FaHome } from 'react-icons/fa';
+"use client"
+
+import { useState } from "react"
+import Sidebar from "./Sidebar"
+import Header from "./Header"
+import { FaUser, FaSignOutAlt } from "react-icons/fa"
 
 function Profile() {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+    const handleToggle = () => setIsSidebarOpen(!isSidebarOpen)
+    const handleClose = () => setIsSidebarOpen(false)
+
+    const handleLogout = () => {
+        // Add any logout logic here (clear tokens, etc.)
+        window.location.href = "/login"
+    }
+
     return (
         <div className="container">
-            {/* Navbar */}
-            <div className="navbar">
-                <div className="sidebar-icon"><FaBars /></div>
-                <div className="logo">
-                    <FaBook />
-                    <span>CrowdCode</span>
-                </div>
-                <div className="search-bar">
-                    <input type="text" placeholder="Search" />
-                </div>
-                <div className="nav-icons">
-                    <Link to="/myrepos" className="nav-icon"><FaBook/></Link>
-                    <Link to="/myissues" className="nav-icon"><FaExclamationCircle/></Link>
-                    <Link to="/inbox" className="nav-icon"><FaInbox/></Link>
-                    <Link to="/profile" className="nav-icon"><FaUserCircle/></Link>
-                    <Link to="/" className="nav-icon"><FaHome/></Link>
-                </div>
-            </div>
+            {/* Header */}
+            <Header onToggle={handleToggle} />
+
+            {/* Sidebar */}
+            <Sidebar isOpen={isSidebarOpen} onToggle={handleToggle} onClose={handleClose} />
 
             {/* Floating bubbles */}
             <div className="bubble"></div>
             <div className="bubble-small"></div>
             <div className="bubble-bottom"></div>
 
-            {/* Page content */}
-            <div className="page-content">
-                <h1 className="gradient-text">Profile</h1>
-                <p>Welcome to your profile page! Here you can view your details and manage your settings.</p>
+            <div className="homepage">
+                <div className="discussion-detail">
+                    <div className="profile-header">
+                        <h1 className="gradient-text">Your GitHub Profile</h1>
+                        <button className="logout-button" onClick={handleLogout}>
+                            <FaSignOutAlt /> Logout
+                        </button>
+                    </div>
+
+                    <div className="detail-card profile-card">
+                        <div className="profile-content">
+                            <div className="profile-avatar-section">
+                                <div className="profile-avatar">
+                                    <FaUser />
+                                </div>
+                                <div className="profile-info">
+                                    <h2>Ioana Popa</h2>
+                                    <p className="profile-email">ioana.popa@gmail.com</p>
+                                </div>
+                            </div>
+
+                            <div className="profile-note">
+                                <p>
+                                    To modify your profile information, please visit your GitHub account settings and make changes there.
+                                    Your updates will be reflected here automatically.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default Profile;
+export default Profile

@@ -1,5 +1,6 @@
 /* Reset and base styles */
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
@@ -14,22 +15,52 @@ body, html {
 }
 
 /* Reusable floating bubbles */
-.bubble, .bubble-small, .bubble-bottom {
+.bubble,
+.bubble-small,
+.bubble-bottom {
     position: absolute;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    background: radial-gradient(
+            circle at 30% 30%,
+            rgba(255, 255, 255, 0.3),
+            rgba(255, 255, 255, 0.1) 50%,
+            transparent 70%
+    );
     border-radius: 50%;
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     animation: float 6s ease-in-out infinite;
 }
 
-.bubble { top: 10%; left: 15%; width: 80px; height: 80px; }
-.bubble-small { top: 20%; right: 20%; width: 40px; height: 40px; animation: float 8s ease-in-out infinite; }
-.bubble-bottom { bottom: 5%; left: 10%; width: 60px; height: 60px; animation: float 7s ease-in-out infinite; }
+.bubble {
+    top: 10%;
+    left: 15%;
+    width: 80px;
+    height: 80px;
+}
+.bubble-small {
+    top: 20%;
+    right: 20%;
+    width: 40px;
+    height: 40px;
+    animation: float 8s ease-in-out infinite;
+}
+.bubble-bottom {
+    bottom: 5%;
+    left: 10%;
+    width: 60px;
+    height: 60px;
+    animation: float 7s ease-in-out infinite;
+}
 
 @keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0); }
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
 /* Center content for login page */
@@ -50,7 +81,7 @@ body, html {
     border-radius: 10px;
     text-align: center;
     width: 300px;
-    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
 .card h1 {
@@ -124,6 +155,8 @@ body, html {
     margin-right: 30px;
     display: flex;
     align-items: center;
+    color: #fff;
+    text-decoration: none;
 }
 
 .logo span {
@@ -220,6 +253,179 @@ body, html {
     margin: 0 auto;
 }
 
+.homepage {
+    padding: 2rem;
+    background: radial-gradient(circle at top left, #0d0221, #1b0033);
+    color: #fff;
+    min-height: 100vh;
+}
+
+/* Header */
+.topics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.topics-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.start-discussion {
+    padding: 0.6rem 1.4rem;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #2a2a3d, #1c1c2b);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.start-discussion:hover {
+    transform: scale(1.05);
+}
+
+/* Topics list */
+.topics-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.topic-card {
+    display: flex;
+    align-items: flex-start;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    gap: 1.5rem;
+}
+
+.votes {
+    flex: 0 0 80px;
+    text-align: center;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.votes span:not(.vote-label) {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.vote-label {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+.topic-content {
+    flex: 1;
+    min-width: 0; /* Prevents flex item from overflowing */
+}
+
+.topic-content h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    line-height: 1.3;
+}
+
+.topic-content h2 a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.topic-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.topic-user {
+    flex: 0 0 140px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.topic-user .avatar {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.user-info strong {
+    font-size: 0.85rem;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-info span {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    white-space: nowrap;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.pagination span {
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+}
+
+.pagination .active {
+    background: #333;
+    border-radius: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .topic-card {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .votes {
+        flex: none;
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .votes span:not(.vote-label) {
+        margin-right: 0.2rem;
+    }
+
+    .topic-user {
+        flex: none;
+        justify-content: center;
+    }
+}
+
 .latest-topics-title {
     margin-bottom: 20px;
 }
@@ -227,4 +433,1736 @@ body, html {
 .no-results {
     font-size: 1.25rem;
     color: #999;
+}
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 3;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Sidebar slide animation */
+.sidebar-content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background: rgba(20, 20, 40, 0.9);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.sidebar-content.open {
+    transform: translateX(0);
+}
+
+/* Menu icon hover */
+.sidebar-icon {
+    font-size: 24px;
+    color: #eee;
+    cursor: pointer;
+    margin-right: 15px;
+    transition: color 0.3s ease, background 0.3s ease;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.sidebar-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ff6ec4;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sidebar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    color: #fff;
+}
+
+.sidebar .logo span {
+    margin-left: 8px;
+    color: #fff;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none !important;
+}
+
+.sidebar ul li a:hover {
+    color: #ff6ec4;
+}
+.sidebar .logo svg {
+    color: #fff !important; /* Force white color for the SVG icon */
+}
+
+/* Added Details page specific styling */
+/* Button styles matching Start Discussion */
+.back-button,
+.submit-answer {
+    padding: 0.6rem 1.4rem;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #2a2a3d, #1c1c2b);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.back-button:hover,
+.submit-answer:hover {
+    transform: scale(1.05);
+}
+
+.submit-answer:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Discussion detail layout */
+.discussion-detail {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.detail-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    backdrop-filter: blur(10px);
+    position: relative;
+}
+
+/* Title styling - centered */
+.detail-card h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: #e0e0e0;
+    line-height: 1.3;
+    padding-right: 120px; /* Add padding to avoid overlap with votes */
+}
+
+/* Votes positioned in top-right corner - made smaller */
+.detail-card .votes {
+    position: absolute;
+    top: 7rem; /* moved votes further down to position below the dividing line */
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.8rem; /* Made smaller */
+    min-width: 60px; /* Set minimum width */
+}
+
+.detail-card .votes span:first-child,
+.detail-card .votes span:nth-child(3) {
+    font-size: 1.2rem; /* Reduced from 1.5rem */
+    font-weight: bold;
+    color: #4ade80;
+}
+
+.detail-card .vote-label {
+    font-size: 0.7rem; /* Made smaller */
+    color: #a0a0a0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Content styling */
+.detail-content {
+    margin-top: 1rem;
+}
+
+.detail-text {
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.detail-text p {
+    margin-bottom: 1rem;
+    color: #d0d0d0;
+}
+
+/* Enhanced code styling - make code snippets stand out */
+.detail-text code {
+    background: rgba(40, 40, 60, 0.8);
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-family: "Courier New", Consolas, Monaco, monospace;
+    font-size: 0.9em;
+    color: #fbbf24;
+    font-weight: 600;
+    white-space: pre-wrap;
+}
+
+.code-block {
+    background: rgba(20, 20, 40, 0.9);
+    border: 1px solid rgba(100, 200, 255, 0.4);
+    border-left: 4px solid #fbbf24;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    font-family: "Courier New", Consolas, Monaco, monospace;
+    color: #fbbf24;
+    font-weight: 600;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Answer section */
+.answer-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-left: 2rem;
+    /* Increased right margin to match left side spacing */
+    margin-right: 3rem;
+}
+
+.answer-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #e0e0e0;
+}
+
+/* Larger textarea */
+.answer-input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.answer-input {
+    width: 100%;
+    min-height: 150px;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.answer-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.answer-input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* User info - icon and name side by side */
+.detail-user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-user .avatar {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    padding: 8px;
+    color: #a0a0a0;
+    flex-shrink: 0;
+}
+
+.detail-user .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.detail-user .user-info strong {
+    color: #e0e0e0;
+    font-size: 14px;
+}
+
+.detail-user .user-info span {
+    color: #a0a0a0;
+    font-size: 12px;
+}
+
+/* Responsive design for details */
+@media (max-width: 768px) {
+    .discussion-detail {
+        padding: 1rem;
+    }
+
+    .detail-card {
+        padding: 1.5rem;
+    }
+
+    .detail-card .votes {
+        position: static;
+        margin-bottom: 1rem;
+        align-self: flex-start;
+    }
+
+    .detail-card h1 {
+        font-size: 1.5rem;
+        padding-right: 0;
+    }
+}
+
+/* Added profile page specific styling */
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.profile-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.logout-button {
+    padding: 0.6rem 1.4rem;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #dc2626, #b91c1c);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logout-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(145deg, #b91c1c, #991b1b);
+}
+
+.profile-card {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.profile-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.profile-avatar-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(145deg, #2a2a3d, #1c1c2b);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #a0a0a0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.profile-info h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+    color: #e0e0e0;
+    font-weight: 600;
+}
+
+.profile-email {
+    margin: 0;
+    color: #a0a0a0;
+    font-size: 1.1rem;
+}
+
+.profile-note {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border-left: 4px solid #3b82f6;
+}
+
+.profile-note p {
+    margin: 0;
+    color: #d0d0d0;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Responsive design for profile */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .profile-header h1 {
+        font-size: 2rem;
+    }
+
+    .profile-avatar-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .profile-info h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Added MyRepos page specific styling */
+.repos-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    padding-top: 100px; /* Space for header */
+}
+
+.repos-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.repos-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.repos-subtitle {
+    color: #a0a0a0;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.repos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.repo-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.repo-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.repo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.repo-title-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.repo-name {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #4ade80;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.repo-name:hover {
+    color: #22d3ee;
+}
+
+.repo-badges {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.repo-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.repo-badge.private {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.repo-badge.public {
+    background: rgba(34, 197, 94, 0.2);
+    color: #86efac;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.repo-collaborators {
+    flex-shrink: 0;
+}
+
+.collaborator-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #a0a0a0;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.repo-description {
+    color: #d0d0d0;
+    margin: 0 0 1.5rem 0;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.repo-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.repo-stats {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.repo-language {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #e0e0e0;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.repo-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #a0a0a0;
+    font-size: 0.85rem;
+}
+
+.repo-updated {
+    color: #a0a0a0;
+    font-size: 0.8rem;
+}
+
+/* Responsive design for repos */
+@media (max-width: 768px) {
+    .repos-page {
+        padding: 1rem;
+        padding-top: 80px;
+    }
+
+    .repos-header h1 {
+        font-size: 2rem;
+    }
+
+    .repo-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .repo-title-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .repo-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .repo-stats {
+        gap: 1rem;
+    }
+}
+
+/* Added RepoDetails component styling for GitHub-like repository view */
+/* RepoDetails page styling */
+.repo-details-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    padding-top: 100px; /* Space for header */
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #2a2a3d, #1c1c2b);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
+}
+
+.back-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(35, 134, 54, 0.4);
+    background: linear-gradient(145deg, #2ea043, #238636);
+}
+
+.back-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.repo-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    gap: 2rem;
+}
+
+.repo-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.repo-owner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #a0a0a0;
+    font-size: 1.1rem;
+}
+
+.owner-avatar {
+    width: 24px;
+    height: 24px;
+    color: #4ade80;
+}
+
+.owner-name {
+    color: #4ade80;
+    font-weight: 500;
+}
+
+.repo-separator {
+    color: #666;
+    font-weight: normal;
+}
+
+.repo-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #4ade80;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.repo-visibility {
+    margin-top: 0.5rem;
+}
+
+.visibility-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.visibility-badge.private {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.visibility-badge.public {
+    background: rgba(34, 197, 94, 0.2);
+    color: #86efac;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.repo-actions {
+    display: flex;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.action-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.repo-stats-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.stats-left {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #a0a0a0;
+    font-size: 0.9rem;
+}
+
+.stats-right {
+    display: flex;
+    align-items: center;
+}
+
+.repo-language-stat {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #a0a0a0;
+    font-size: 0.9rem;
+}
+
+.repo-description-section {
+    margin-bottom: 2rem;
+}
+
+.repo-description-text {
+    color: #d0d0d0;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.file-browser {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.file-browser-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.branch-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #4ade80;
+    font-weight: 500;
+}
+
+.commit-info {
+    color: #a0a0a0;
+    font-size: 0.9rem;
+}
+
+.file-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+}
+
+.file-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.file-item:last-child {
+    border-bottom: none;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.file-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.file-icon.folder {
+    color: #60a5fa;
+}
+
+.file-icon.file {
+    color: #a0a0a0;
+}
+
+.file-name {
+    color: #4ade80;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.file-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #a0a0a0;
+    font-size: 0.85rem;
+}
+
+.commit-message {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.commit-time {
+    flex-shrink: 0;
+    min-width: 80px;
+    text-align: right;
+}
+
+/* Responsive design for RepoDetails */
+@media (max-width: 768px) {
+    .repo-details-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .repo-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .action-button {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .repo-stats-bar {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .stats-left {
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .file-meta {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.2rem;
+    }
+
+    .commit-message {
+        max-width: 200px;
+    }
+}
+
+/* Added styling for sync button container with equal padding */
+.sync-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+/* Added NewIssue component styling */
+/* New Issue Page */
+.new-issue-page {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-top: 100px;
+}
+
+.issue-repo-context {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+.repo-context-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.repo-context-info .owner-avatar {
+    color: #8b949e;
+    font-size: 1.2rem;
+}
+
+.repo-context-info .repo-separator {
+    color: #8b949e;
+    margin: 0 0.2rem;
+}
+
+.repo-context-info .repo-name {
+    color: #58a6ff;
+    font-weight: 600;
+}
+
+.issue-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #f85149;
+    font-weight: 500;
+}
+
+.new-issue-container {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+.issue-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.issue-title {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.issue-subtitle {
+    color: #8b949e;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.issue-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #f0f6fc;
+    font-size: 1rem;
+}
+
+.required {
+    color: #f85149;
+}
+
+.issue-title-input {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.issue-title-input:focus {
+    outline: none;
+    border-color: #58a6ff;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+}
+
+.issue-title-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.format-toggle {
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 2px;
+    gap: 2px;
+}
+
+.format-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    color: #8b949e;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.format-btn.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f0f6fc;
+}
+
+.format-btn:hover {
+    color: #f0f6fc;
+}
+
+.issue-description-input {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    resize: vertical;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.issue-description-input:focus {
+    outline: none;
+    border-color: #58a6ff;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+}
+
+.issue-description-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.issue-preview {
+    min-height: 300px;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: white;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.preview-content {
+    white-space: pre-wrap;
+}
+
+.preview-content .code-line {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    margin: 0.2rem 0;
+    font-family: "Courier New", monospace;
+    color: #ffc107;
+    font-size: 0.9rem;
+}
+
+.preview-content .text-line {
+    margin: 0.2rem 0;
+}
+
+.preview-placeholder {
+    color: #8b949e;
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
+}
+
+.format-help {
+    margin-top: 0.5rem;
+}
+
+.format-help small {
+    color: #8b949e;
+    font-size: 0.85rem;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.submit-issue-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #238636, #1f7a2e);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(35, 134, 54, 0.3);
+}
+
+.submit-issue-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(35, 134, 54, 0.4);
+    background: linear-gradient(145deg, #2ea043, #238636);
+}
+
+.submit-issue-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Adding success notification styling */
+.success-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 2rem;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.success-content {
+    background: linear-gradient(145deg, #22c55e, #16a34a);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+    box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+    animation: slideDown 0.4s ease-out;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.success-icon {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Added MyIssues component styling */
+/* My Issues Page */
+.issues-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.issue-card {
+    position: relative;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.issue-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.issue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.issue-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-icon {
+    font-size: 1rem;
+}
+
+.status-icon.open {
+    color: #22c55e;
+}
+
+.status-icon.closed {
+    color: #8b5cf6;
+}
+
+.status-text {
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-text.open {
+    color: #22c55e;
+}
+
+.status-text.closed {
+    color: #8b5cf6;
+}
+
+.issue-repo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #8b949e;
+    font-size: 0.9rem;
+}
+
+.repo-icon {
+    font-size: 0.8rem;
+}
+
+.issue-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    margin: 0 0 1rem 0;
+    line-height: 1.3;
+}
+
+.issue-labels {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.issue-label {
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: rgba(88, 166, 255, 0.2);
+    color: #58a6ff;
+    border: 1px solid rgba(88, 166, 255, 0.3);
+}
+
+.issue-description {
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.issue-meta {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+    margin-top: 1.5rem;
+}
+
+.issue-time {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #8b949e;
+    font-size: 0.9rem;
+}
+
+.time-icon {
+    font-size: 0.8rem;
+}
+
+/* Override votes positioning for issue cards */
+.issue-card .votes {
+    position: static;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-right: 1rem;
+    flex-direction: row;
+    gap: 1rem;
+    font-size: 0.9rem;
+}
+
+.issue-card .votes span:first-child,
+.issue-card .votes span:nth-child(3) {
+    font-size: 1rem;
+    color: #4ade80;
+}
+
+/* Issue Details Page */
+.issue-header-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.issue-status-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.issue-repo-detail {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #8b949e;
+    font-size: 0.9rem;
+}
+
+.issue-labels-detail {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+/* Responses Section */
+.responses-section {
+    margin: 2rem 0;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.responses-section h3 {
+    color: #e0e0e0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.response-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.response-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.response-votes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 60px;
+}
+
+.vote-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 0.5rem;
+    color: #8b949e;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vote-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+.vote-btn:active {
+    transform: translateY(0);
+}
+
+.vote-count {
+    font-weight: 600;
+    color: #e0e0e0;
+    font-size: 1rem;
+}
+
+.response-content {
+    flex: 1;
+}
+
+.response-text {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: #d0d0d0;
+}
+
+.response-user {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.response-user .avatar {
+    color: #8b949e;
+    font-size: 1.2rem;
+}
+
+.response-user .user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.response-user .user-info strong {
+    color: #e0e0e0;
+    font-size: 0.95rem;
+}
+
+.response-user .user-info span {
+    color: #8b949e;
+    font-size: 0.85rem;
+}
+
+/* Responsive adjustments for responses */
+@media (max-width: 768px) {
+    .response-card {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .response-votes {
+        flex-direction: row;
+        justify-content: center;
+        min-width: auto;
+    }
+}
+
+/* Added styling for votes positioned below issue header */
+.votes-below-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0.5rem 0 1rem 0;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #a0a0a0;
+}
+
+.votes-below-header span:first-child,
+.votes-below-header span:nth-child(3) {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #4ade80;
+}
+
+.votes-below-header .vote-label {
+    font-size: 0.8rem;
+    color: #a0a0a0;
+    margin-right: 1rem;
+}
+
+/* Adding notification styling for Inbox page */
+.notifications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.notification-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.notification-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.notification-card.unread {
+    border-left: 4px solid #4ade80;
+    background: rgba(74, 222, 128, 0.05);
+}
+
+.notification-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #4ade80;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.notification-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.notification-main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    align-items: center;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.notification-user {
+    font-weight: 600;
+    color: #4ade80;
+}
+
+.notification-action {
+    color: #e0e0e0;
+}
+
+.notification-target {
+    font-weight: 500;
+    color: #a78bfa;
+}
+
+.notification-repo {
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+.notification-time {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.unread-indicator {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 8px;
+    height: 8px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Mobile responsiveness for notifications */
+@media (max-width: 768px) {
+    .notification-card {
+        padding: 1rem;
+    }
+
+    .notification-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.2rem;
+    }
+
+    .notification-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
 }
