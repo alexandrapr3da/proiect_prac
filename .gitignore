@@ -15,6 +15,7 @@ Icon?
 *.orig
 *.swp
 *.log
+.env
 
 # --- IDE / editori comuni ---
 .vscode/
