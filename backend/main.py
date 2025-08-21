@@ -38,10 +38,6 @@ def create_access_token(sub: str) -> str:
 
 @app.post("/token", response_model=Token)
 def login_with_github(payload: GitHubLogin, db: Session = Depends(get_db)):
-    """
-    Accepts: { "github_token": "<PAT>" }
-    Validates with GitHub /user, upserts local user, returns JWT.
-    """
     try:
         gh_user = get_github_user(payload.github_token)
     except ValueError as e:
@@ -50,19 +46,16 @@ def login_with_github(payload: GitHubLogin, db: Session = Depends(get_db)):
     username = gh_user.get("login")
     gh_id = str(gh_user.get("id"))
 
-    if not username or not gh_id:
-        raise HTTPException(status_code=400, detail="GitHub user data incomplete")
-
     user = db.query(User).filter(User.github_id == gh_id).first()
     if not user:
-        user = User(username=username, github_id=gh_id)
+        user = User(username=username, github_id=gh_id, github_token=payload.github_token)  # <-- save token
         db.add(user)
-        db.commit()
-        db.refresh(user)
     else:
-        if user.username != username:
-            user.username = username
-            db.commit()
+        user.username = username
+        user.github_token = payload.github_token  # <-- update token
+    db.commit()
+    db.refresh(user)
 
-    access_token = create_access_token(sub=username)
+    # Better to use user.id instead of username in JWT
+    access_token = create_access_token(sub=str(user.id))
     return {"access_token": access_token, "token_type": "bearer"}

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
-from jose import jwt
+from jose import jwt, JWTError
 from datetime import datetime, timedelta
 import os
 from pydantic import BaseModel
@@ -19,6 +20,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 router = APIRouter()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 def get_db():
     db = SessionLocal()
@@ -41,17 +43,34 @@ def login_with_github(payload: GitHubToken, db: Session = Depends(get_db)):
     # Step 2: Check if user exists in our DB
     db_user = db.query(User).filter(User.username == github_user["login"]).first()
     if not db_user:
-        db_user = User(username=github_user["login"])
+        db_user = User(username=github_user["login"], github_id=str(github_user["id"]), github_token=payload.github_token)
         db.add(db_user)
-        db.commit()
-        db.refresh(db_user)
+    else:
+        db_user.github_token = payload.github_token  # <-- update token if re-login
+    db.commit()
+    db.refresh(db_user)
 
-    # Step 3: Create JWT for our app
+    # Step 3: Create JWT for our app (store user.id in sub)
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     app_token = jwt.encode(
-        {"sub": github_user["login"], "exp": expire},
+        {"sub": str(db_user.id), "exp": expire},
         SECRET_KEY,
         algorithm=ALGORITHM
     )
 
     return {"access_token": app_token, "token_type": "bearer"}
+
+# Dependency: get current logged-in user from JWT
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            raise HTTPException(status_code=401, detail="Invalid JWT")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid JWT")
+
+    user = db.query(User).filter(User.id == int(user_id)).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="User not found")
+    return user

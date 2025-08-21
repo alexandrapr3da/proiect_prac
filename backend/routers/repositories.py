@@ -1,27 +1,34 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, Header
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from schemas.repository import RepositoryCreate, RepositoryOut
-from schemas.feature import FeatureCreate
 from models.models import Repository, Feature
-from typing import Optional
 from database import SessionLocal
-from utils.github import search_github_repos, get_issues_from_repo
+from utils.github import search_github_repos
 from routers.features import get_db
-from pydantic import BaseModel
+from routers.auth import get_current_user
+from models.models import User
 from github import Github
 
 router = APIRouter(prefix="/repos", tags=["Repositories"])
 
-class RepoSyncRequest(BaseModel):
-    repo_full_name: str
-    github_token: str
-
+# ✅ Search GitHub repositories (uses current user’s token)
 @router.get("/search")
-def search_repositories(query: str = Query(...), token: str = Header()):
-    return search_github_repos(query, token)
+def search_repositories(
+    query: str = Query(...),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    if not current_user.github_token:
+        raise HTTPException(status_code=401, detail="GitHub token not found for user")
+    return search_github_repos(query, current_user.github_token)
 
+# ✅ Add repository to DB
 @router.post("/", response_model=RepositoryOut)
-def add_repository(repo: RepositoryCreate, db: Session = Depends(get_db)):
+def add_repository(
+    repo: RepositoryCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
     existing = db.query(Repository).filter(Repository.github_id == repo.github_id).first()
     if existing:
         return existing
@@ -31,15 +38,20 @@ def add_repository(repo: RepositoryCreate, db: Session = Depends(get_db)):
     db.refresh(new_repo)
     return new_repo
 
+# ✅ Sync GitHub issues (uses current user’s token automatically)
 @router.post("/sync", response_model=dict)
 def sync_github_issues(
-    request: RepoSyncRequest,
+    repo_full_name: str,
     db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
-    g = Github(request.github_token)
+    if not current_user.github_token:
+        raise HTTPException(status_code=401, detail="GitHub token not found for user")
+
+    g = Github(current_user.github_token)
 
     try:
-        repo_obj = g.get_repo(request.repo_full_name)
+        repo_obj = g.get_repo(repo_full_name)
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error fetching repo: {e}")
 
@@ -77,10 +89,10 @@ def sync_github_issues(
                 description=issue.body or "No description provided.",
                 status="open",
                 repository=repo,
-                user_id=None,
+                user_id=current_user.id,  # ✅ now linked to the logged-in user
             )
             db.add(feature)
             added += 1
 
     db.commit()
-    return {"message": f"{added} issues synced from {request.repo_full_name}"}
+    return {"message": f"{added} issues synced from {repo_full_name}"}

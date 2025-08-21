@@ -13,6 +13,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
     github_id = Column(String, unique=True, index=True)
+    github_token = Column(String)
     features = relationship("Feature", back_populates="user")
     comments = relationship("Comment", back_populates="user")
     votes = relationship("Vote", back_populates="user")
