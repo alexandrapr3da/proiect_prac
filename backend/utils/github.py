@@ -75,7 +75,11 @@ def get_user_repos(pat: str):
             "github_id": str(repo["id"]),
             "name": repo["name"],
             "full_name": repo["full_name"],
-            "url": repo["html_url"]
+            "url": repo["html_url"],
+            "description": repo.get("description"),
+            "private": repo["private"],
+            "stargazers_count": repo["stargazers_count"],
+            "forks_count": repo["forks_count"],
         }
         for repo in repos
     ]
