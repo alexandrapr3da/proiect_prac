@@ -89,7 +89,7 @@ def sync_github_issues(
                 description=issue.body or "No description provided.",
                 status="open",
                 repository=repo,
-                user_id=current_user.id,  # ✅ now linked to the logged-in user
+                user_id=current_user.id, 
             )
             db.add(feature)
             added += 1

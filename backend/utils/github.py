@@ -52,4 +52,30 @@ def get_github_user(pat: str):
         except Exception:
             detail = resp.text
         raise ValueError(f"GitHub token invalid or unauthorized: {detail}")
-    return resp.json() 
+    return resp.json()
+
+def get_user_repos(pat: str):
+    """
+    Fetch the authenticated user's repositories.
+    Returns list of dicts with repo info.
+    """
+    headers = {"Authorization": f"token {pat}", "Accept": "application/vnd.github+json"}
+    resp = requests.get(f"{GITHUB_API_BASE}/user/repos", headers=headers, timeout=15)
+
+    if resp.status_code != 200:
+        try:
+            detail = resp.json()
+        except Exception:
+            detail = resp.text
+        raise ValueError(f"Unable to fetch repos: {detail}")
+
+    repos = resp.json()
+    return [
+        {
+            "github_id": str(repo["id"]),
+            "name": repo["name"],
+            "full_name": repo["full_name"],
+            "url": repo["html_url"]
+        }
+        for repo in repos
+    ]
