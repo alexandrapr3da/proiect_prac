@@ -11,7 +11,6 @@ from github import Github
 
 router = APIRouter(prefix="/repos", tags=["Repositories"])
 
-# ✅ Search GitHub repositories (uses current user’s token)
 @router.get("/search")
 def search_repositories(
     query: str = Query(...),
@@ -22,7 +21,6 @@ def search_repositories(
         raise HTTPException(status_code=401, detail="GitHub token not found for user")
     return search_github_repos(query, current_user.github_token)
 
-# ✅ Add repository to DB
 @router.post("/", response_model=RepositoryOut)
 def add_repository(
     repo: RepositoryCreate,
@@ -38,7 +36,6 @@ def add_repository(
     db.refresh(new_repo)
     return new_repo
 
-# ✅ Sync GitHub issues (uses current user’s token automatically)
 @router.post("/sync", response_model=dict)
 def sync_github_issues(
     repo_full_name: str,
@@ -55,7 +52,6 @@ def sync_github_issues(
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error fetching repo: {e}")
 
-    # Check if repo exists in DB
     repo = db.query(Repository).filter(Repository.github_id == str(repo_obj.id)).first()
     if not repo:
         repo = Repository(
@@ -67,7 +63,6 @@ def sync_github_issues(
         db.commit()
         db.refresh(repo)
 
-    # Fetch open issues
     try:
         issues = repo_obj.get_issues(state="open")
     except Exception as e:

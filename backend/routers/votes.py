@@ -21,7 +21,6 @@ def vote_feature(feature_id: int, vote: VoteCreate, db: Session = Depends(get_db
         existing_vote = Vote(feature_id=feature_id, user_id=user.id, vote_type=vote.vote_type)
         db.add(existing_vote)
 
-    # Update feature vote count
     upvotes = db.query(Vote).filter(Vote.feature_id == feature_id, Vote.vote_type == VoteType.UP).count()
     downvotes = db.query(Vote).filter(Vote.feature_id == feature_id, Vote.vote_type == VoteType.DOWN).count()
     feature.votes = upvotes - downvotes
