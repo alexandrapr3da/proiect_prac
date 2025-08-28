@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import Header from "./Header"
 import Sidebar from "./Sidebar"
@@ -14,7 +12,7 @@ export default function IssueDetails({ selectedIssue, onBack }) {
 
     const handleSubmitResponse = () => {
         console.log("Submitting response:", userResponse)
-        // Add your submission logic here
+
         setUserResponse("")
     }
 
@@ -74,7 +72,6 @@ const pool = new Pool({
             return (
                 <div key={index}>
                     {lines.map((line, lineIndex) => {
-                        // Highlight code lines
                         if (
                             line.trim().startsWith("const ") ||
                             line.trim().startsWith("Connection timeout") ||
@@ -93,7 +90,6 @@ const pool = new Pool({
                             )
                         }
 
-                        // Regular text line
                         return line.trim() ? <p key={lineIndex}>{line}</p> : <br key={lineIndex} />
                     })}
                 </div>
@@ -104,7 +100,7 @@ const pool = new Pool({
     return (
         <div className="container">
             <Header onToggle={handleToggle} />
-            {/* Sidebar */}
+
             <Sidebar isOpen={isSidebarOpen} onToggle={handleToggle} onClose={handleClose} />
             <div className="bubble"></div>
             <div className="bubble-small"></div>
@@ -162,7 +158,6 @@ const pool = new Pool({
                                 </div>
                             </div>
 
-                            {/* Responses Section */}
                             <div className="responses-section">
                                 <h3>
                                     {issueData.responses} Response{issueData.responses !== 1 ? "s" : ""}

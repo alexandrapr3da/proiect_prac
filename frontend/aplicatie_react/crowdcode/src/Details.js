@@ -13,7 +13,7 @@ export default function Details({ selectedDiscussion, onBack }) {
 
     const handleSubmitAnswer = () => {
         console.log("Submitting answer:", userAnswer)
-        // Add your submission logic here
+
         setUserAnswer("")
     }
 
@@ -40,13 +40,13 @@ shareWith: email: "some@email.com"`,
 
     const renderContentWithCodeHighlighting = (content) => {
         return content.split("\n\n").map((paragraph, index) => {
-            // Split paragraph into lines to check each line individually
+
             const lines = paragraph.split("\n")
 
             return (
                 <div key={index}>
                     {lines.map((line, lineIndex) => {
-                        // Only highlight lines that are actual code
+
                         if (
                             line.trim().startsWith("allow read:") ||
                             line.trim().startsWith("get(/") ||
@@ -59,7 +59,6 @@ shareWith: email: "some@email.com"`,
                             )
                         }
 
-                        // For regular text lines, check for inline code patterns
                         const parts = line.split(
                             /(if request\.auth\.token\.email in get$$[^)]+$$\.data\.shareWith;|shareWith: email: "[^"]+"|`[^`]+`)/g,
                         )
@@ -85,7 +84,6 @@ shareWith: email: "some@email.com"`,
                             )
                         }
 
-                        // Regular text line
                         return <p key={lineIndex}>{line}</p>
                     })}
                 </div>
@@ -95,7 +93,7 @@ shareWith: email: "some@email.com"`,
 
     return (
         <div className="container">
-            {/* Sidebar */}
+
             <Sidebar isOpen={isSidebarOpen} onToggle={handleToggle} onClose={handleClose} />
             <div className="bubble"></div>
             <div className="bubble-small"></div>

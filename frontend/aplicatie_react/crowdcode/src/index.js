@@ -28,7 +28,7 @@ export default function App() {
             <Route path="inbox" element={<><Inbox /></>} />
             <Route path="myissues" element={<><MyIssues /></>} />
             <Route path="myrepos" element={<><MyRepos /></>} />
-            <Route path="login" element={<LoginPage />} /> {/* No ProtectedRoute here */}
+            <Route path="login" element={<LoginPage />} />
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>

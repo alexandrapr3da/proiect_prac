@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import Sidebar from "./Sidebar"
 import Header from "./Header"
@@ -12,19 +10,18 @@ function Profile() {
     const handleClose = () => setIsSidebarOpen(false)
 
     const handleLogout = () => {
-        // Add any logout logic here (clear tokens, etc.)
+
         window.location.href = "/login"
     }
 
     return (
         <div className="container">
-            {/* Header */}
+
             <Header onToggle={handleToggle} />
 
-            {/* Sidebar */}
+
             <Sidebar isOpen={isSidebarOpen} onToggle={handleToggle} onClose={handleClose} />
 
-            {/* Floating bubbles */}
             <div className="bubble"></div>
             <div className="bubble-small"></div>
             <div className="bubble-bottom"></div>
@@ -45,8 +42,8 @@ function Profile() {
                                     <FaUser />
                                 </div>
                                 <div className="profile-info">
-                                    <h2>Ioana Popa</h2>
-                                    <p className="profile-email">ioana.popa@gmail.com</p>
+                                    <h2>Raluca Zarnescu</h2>
+                                    <p className="profile-email">ralumaria2015@gmail.com</p>
                                 </div>
                             </div>
 

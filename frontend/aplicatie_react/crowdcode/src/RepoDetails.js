@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import Sidebar from "./Sidebar"
 import Header from "./Header"
@@ -46,18 +44,11 @@ function RepoDetails({ repository, onBack }) {
         return colors[language] || "#8b949e"
     }
 
-    // Mock file structure - in real app this would come from GitHub API
     const fileStructure = [
-        { name: ".devcontainer", type: "folder", icon: FaFolder },
-        { name: ".github", type: "folder", icon: FaFolder },
-        { name: "src", type: "folder", icon: FaFolder },
-        { name: "public", type: "folder", icon: FaFolder },
-        { name: "node_modules", type: "folder", icon: FaFolder },
+        { name: ".idea", type: "folder", icon: FaFolder },
+        { name: "backend", type: "folder", icon: FaFolder },
+        { name: "frontend", type: "folder", icon: FaFolder },
         { name: ".gitignore", type: "file", icon: FaFile },
-        { name: ".gitattributes", type: "file", icon: FaFile },
-        { name: "package.json", type: "file", icon: FaFile },
-        { name: "README.md", type: "file", icon: FaFile },
-        { name: "tsconfig.json", type: "file", icon: FaFile },
     ]
 
     if (showNewIssue) {
@@ -66,24 +57,19 @@ function RepoDetails({ repository, onBack }) {
 
     return (
         <div className="container">
-            {/* Header */}
             <Header onToggle={handleToggle} />
 
-            {/* Sidebar */}
             <Sidebar isOpen={isSidebarOpen} onToggle={handleToggle} onClose={handleClose} />
 
-            {/* Floating bubbles */}
             <div className="bubble"></div>
             <div className="bubble-small"></div>
             <div className="bubble-bottom"></div>
 
             <div className="repo-details-page">
-                {/* Back button */}
                 <button className="back-button" onClick={onBack}>
                     <FaArrowLeft /> Back to Repositories
                 </button>
 
-                {/* Repository header */}
                 <div className="repo-details-header">
                     <div className="repo-info">
                         <div className="repo-owner">
@@ -111,7 +97,6 @@ function RepoDetails({ repository, onBack }) {
                     </div>
                 </div>
 
-                {/* Repository stats */}
                 <div className="repo-stats-bar">
                     <div className="stats-left">
             <span className="stat-item">
@@ -132,14 +117,12 @@ function RepoDetails({ repository, onBack }) {
                     </div>
                 </div>
 
-                {/* Repository description */}
                 {repository.description && (
                     <div className="repo-description-section">
                         <p className="repo-description-text">{repository.description}</p>
                     </div>
                 )}
 
-                {/* File browser */}
                 <div className="file-browser">
                     <div className="file-browser-header">
                         <div className="branch-info">

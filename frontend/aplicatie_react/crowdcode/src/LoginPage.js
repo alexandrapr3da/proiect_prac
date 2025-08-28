@@ -10,7 +10,8 @@ function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const validateToken = (token) => /^[a-f0-9]{40}$/i.test(token);
+  const validateToken = (token) => token && token.length > 10;
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,12 +23,11 @@ function LoginPage() {
     }
 
     try {
-      const res = await axios.post('http://localhost:8000/auth/login', {
-        username: `gh_${tokenInput.substring(0, 8)}`,
-        password: tokenInput,
-      }, {
-        headers: { 'Content-Type': 'application/json' }
-      });
+      const res = await axios.post(
+          'http://localhost:8001/token',
+          { github_token: tokenInput },
+          { headers: { 'Content-Type': 'application/json' } }
+      );
 
       if (res.status === 200) {
         const { access_token } = res.data;

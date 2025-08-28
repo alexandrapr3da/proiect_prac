@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import Sidebar from "./Sidebar"
 import Header from "./Header"
@@ -21,12 +19,50 @@ export default function Home() {
         setSelectedDiscussion(null)
     }
 
+    const posts = [
+        {
+            id: 1,
+            title: "Generic output type depending on input parameter type",
+            description: "I created a function to query a database table for a specific attribute. The Attribute to query is not known, neither is the type.",
+            author: "ralucZ",
+            time: "16 mins ago",
+            votes: 0,
+            answers: 4
+        },
+        {
+            id: 2,
+            title: "What algorithm best finds the shortest path of a graph that visits all marked edges",
+            description: "The current problem I have is that I have an undirected graph, with edges with varying non-negative weights. Some edges are marked as must visit. Starting at a particular node...",
+            author: "alexandrapr3da",
+            time: "2 hours ago",
+            votes: 1,
+            answers: 0
+        },
+        {
+            id: 3,
+            title: "How do I convert a derived class to base abstract generic class when returned from function?",
+            description: "I am working on an application where I need to pull data from different systems with different connection types, get some data from each one, then return it in a consistent format. I have defined a ...",
+            author: "ralucZ",
+            time: "4 hours ago",
+            votes: 2,
+            answers: 1
+        },
+        {
+            id: 4,
+            title: "How to update string attributes to object instances if they exist",
+            description: "I'm trying to use a for loop to iterate through a set of objects, check if those objects store string data (specifically their 'Pokemon.evolution' variable) which is the same as a the name of one of ...",
+            author: "alexandrapr3da",
+            time: "27 mins ago",
+            votes: 4,
+            answers: 2
+        }
+    ]
+
     return (
         <div className="container">
-            {/* Header */}
+
             <Header onToggle={handleToggle} />
 
-            {/* Sidebar */}
             <Sidebar isOpen={isSidebarOpen} onToggle={handleToggle} onClose={handleClose} />
             <div className="bubble"></div>
             <div className="bubble-small"></div>
@@ -41,12 +77,12 @@ export default function Home() {
                         </div>
 
                         <div className="topics-list">
-                            {[1, 2, 3, 4].map((item) => (
-                                <div className="topic-card" key={item}>
+                            {posts.map((post) => (
+                                <div className="topic-card" key={post.id}>
                                     <div className="votes">
-                                        <span>0</span>
+                                        <span>{post.votes}</span>
                                         <span className="vote-label">votes</span>
-                                        <span>4</span>
+                                        <span>{post.answers}</span>
                                         <span className="vote-label">answers</span>
                                     </div>
                                     <div className="topic-content">
@@ -55,22 +91,19 @@ export default function Home() {
                                                 href="#"
                                                 onClick={(e) => {
                                                     e.preventDefault()
-                                                    handleDiscussionClick(item)
+                                                    handleDiscussionClick(post.id)
                                                 }}
                                             >
-                                                Generic output type depending on input parameter type
+                                                {post.title}
                                             </a>
                                         </h2>
-                                        <p>
-                                            I created a function to query a database table for a specific attribute. The Attribute to query is
-                                            not known, neither is the type.
-                                        </p>
+                                        <p>{post.description}</p>
                                     </div>
                                     <div className="topic-user">
                                         <FaUser className="avatar" />
                                         <div className="user-info">
-                                            <strong>Ioana Popa</strong>
-                                            <span>asked 16 mins ago</span>
+                                            <strong>{post.author}</strong>
+                                            <span>asked {post.time}</span>
                                         </div>
                                     </div>
                                 </div>

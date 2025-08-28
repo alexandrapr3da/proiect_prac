@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import Header from "./Header"
 import Sidebar from "./Sidebar"
@@ -154,7 +152,7 @@ All tests were passing before the security patch was applied.`,
             return (
                 <div key={index}>
                     {lines.map((line, lineIndex) => {
-                        // Highlight code lines
+
                         if (
                             line.trim().startsWith("const ") ||
                             line.trim().startsWith("Connection timeout") ||
@@ -174,7 +172,6 @@ All tests were passing before the security patch was applied.`,
                             )
                         }
 
-                        // Regular text line
                         return line.trim() ? <p key={lineIndex}>{line}</p> : <br key={lineIndex} />
                     })}
                 </div>
@@ -189,18 +186,14 @@ All tests were passing before the security patch was applied.`,
 
     return (
         <div className="container">
-            {/* Header */}
             <Header onToggle={handleToggle} />
 
-            {/* Sidebar */}
             <Sidebar isOpen={isSidebarOpen} onToggle={handleToggle} onClose={handleClose} />
 
-            {/* Floating bubbles */}
             <div className="bubble"></div>
             <div className="bubble-small"></div>
             <div className="bubble-bottom"></div>
 
-            {/* Page content */}
             <div className="homepage">
                 <div
                     className="topics-header"

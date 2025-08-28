@@ -19,10 +19,10 @@ const Sidebar = ({ isOpen, onToggle, onClose }) => {
                         </Link>
                     </div>
                     <ul>
-                        <li><a href="#" style={{color: '#fff', textDecoration: 'none'}}>repository1-user</a></li>
-                        <li><a href="#" style={{color: '#fff', textDecoration: 'none'}}>repository2-user</a></li>
-                        <li><a href="#" style={{color: '#fff', textDecoration: 'none'}}>repository3-user</a></li>
-                        <li><a href="#" style={{color: '#fff', textDecoration: 'none'}}>repository4-user</a></li>
+                        <li><a href="#" style={{color: '#fff', textDecoration: 'none'}}>proiect_prac</a></li>
+                        <li><a href="#" style={{color: '#fff', textDecoration: 'none'}}>filesystem-ralucZ</a></li>
+                        <li><a href="#" style={{color: '#fff', textDecoration: 'none'}}>rustybox-ralucZ</a></li>
+                        <li><a href="#" style={{color: '#fff', textDecoration: 'none'}}>rustyloader-ralucZ</a></li>
                     </ul>
                 </div>
             </div>

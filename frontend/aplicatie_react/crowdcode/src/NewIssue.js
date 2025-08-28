@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import Sidebar from "./Sidebar"
 import Header from "./Header"
@@ -18,14 +16,13 @@ function NewIssue({ repository, onBack }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (title.trim() && description.trim()) {
-            // Handle issue submission here
+
             console.log("Submitting issue:", { title, description, repository: repository.name })
 
             setShowSuccess(true)
             setTitle("")
             setDescription("")
 
-            // Hide notification and navigate back after 3 seconds
             setTimeout(() => {
                 setShowSuccess(false)
                 onBack()
@@ -38,7 +35,7 @@ function NewIssue({ repository, onBack }) {
 
         const lines = content.split("\n")
         return lines.map((line, index) => {
-            // Check if line contains code patterns
+
             const isCodeLine =
                 line.includes("```") ||
                 line.includes("function") ||
@@ -79,13 +76,11 @@ function NewIssue({ repository, onBack }) {
 
     return (
         <div className="container">
-            {/* Header */}
+
             <Header onToggle={handleToggle} />
 
-            {/* Sidebar */}
             <Sidebar isOpen={isSidebarOpen} onToggle={handleToggle} onClose={handleClose} />
 
-            {/* Floating bubbles */}
             <div className="bubble"></div>
             <div className="bubble-small"></div>
             <div className="bubble-bottom"></div>
@@ -100,12 +95,11 @@ function NewIssue({ repository, onBack }) {
             )}
 
             <div className="new-issue-page">
-                {/* Back button */}
+
                 <button className="back-button" onClick={onBack}>
                     <FaArrowLeft /> Back to {repository.name}
                 </button>
 
-                {/* Repository context */}
                 <div className="issue-repo-context">
                     <div className="repo-context-info">
                         <FaUser className="owner-avatar" />
@@ -119,7 +113,6 @@ function NewIssue({ repository, onBack }) {
                     </div>
                 </div>
 
-                {/* New Issue Form */}
                 <div className="new-issue-container">
                     <div className="issue-header">
                         <h1 className="issue-title">Create New Issue</h1>
@@ -127,7 +120,6 @@ function NewIssue({ repository, onBack }) {
                     </div>
 
                     <form onSubmit={handleSubmit} className="issue-form">
-                        {/* Title Input */}
                         <div className="form-group">
                             <label htmlFor="issue-title" className="form-label">
                                 Title <span className="required">*</span>
@@ -143,7 +135,6 @@ function NewIssue({ repository, onBack }) {
                             />
                         </div>
 
-                        {/* Description Input */}
                         <div className="form-group">
                             <div className="form-label-row">
                                 <label htmlFor="issue-description" className="form-label">
@@ -197,7 +188,6 @@ function NewIssue({ repository, onBack }) {
                             </div>
                         </div>
 
-                        {/* Submit Button */}
                         <div className="form-actions">
                             <button type="submit" className="submit-issue-btn" disabled={!title.trim() || !description.trim()}>
                                 <FaPaperPlane /> Submit Issue

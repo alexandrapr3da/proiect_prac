@@ -1,49 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useAuth } from "./AuthContext";
 
 function TokenInput() {
-    const [token, setToken] = useState('');
-    const [error, setError] = useState('');
-    const [response, setResponse] = useState('');
-
-    const validateToken = (token) => {
-
-        const regex = /^[a-f0-9]{40}$/i;
-        return regex.test(token);
-    };
+    const [token, setToken] = useState("");
+    const [error, setError] = useState("");
+    const [response, setResponse] = useState("");
+    const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setResponse('');
-        setError('');
-
-        if (!validateToken(token)) {
-            setError('Invalid token!');
-            return;
-        }
+        setResponse("");
+        setError("");
 
         try {
-            const res = await fetch('https://api.github.com/user', {
-                method: 'GET',
+            const res = await fetch("http://localhost:8001/token", {
+                method: "POST",
                 headers: {
-                    'Authorization': `token ${token}`,
-                    'Accept': 'application/vnd.github+json',
+                    "Content-Type": "application/json"
                 },
+                body: JSON.stringify({ github_token: token })
             });
 
-            if (res.status === 401) {
-                setError('Unauthorized: Token is invalid or expired.');
-                return;
-            }
-
             if (!res.ok) {
-                throw new Error(`GitHub API error: ${res.status}`);
+                const errData = await res.json();
+                throw new Error(errData.detail || "Login failed");
             }
 
             const data = await res.json();
-            setResponse(`Authenticated as: ${data.login}`);
+            login(data.access_token);
+
+            setResponse("✅ Successfully authenticated!");
         } catch (err) {
             console.error(err);
-            setError(`Request failed: ${err.message}`);
+            setError(`❌ ${err.message}`);
         }
     };
 
@@ -55,13 +44,14 @@ function TokenInput() {
                     type="text"
                     value={token}
                     onChange={(e) => setToken(e.target.value)}
-                    placeholder="Your 40-char GitHub token"
+                    placeholder="Your GitHub token"
+                    required
                 />
             </label>
             <button type="submit">Authenticate with GitHub</button>
 
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {response && <p style={{ color: 'green' }}>{response}</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            {response && <p style={{ color: "green" }}>{response}</p>}
         </form>
     );
 }

@@ -22,58 +22,58 @@ function MyRepos() {
     }
 
     const handleSyncWithGitHub = () => {
-        // Add sync functionality here
+
         console.log("Syncing with GitHub...")
     }
 
     const repositories = [
         {
             id: 1,
-            name: "awesome-react-app",
-            description: "A modern React application with advanced features and clean architecture",
-            author: "ioanapopa",
-            isPrivate: false,
-            collaborators: 1,
+            name: "proiect_prac",
+            description: "A web application with a React frontend and a Python backend connected to a PostgreSQL database.",
+            author: "alexandrapr3da",
+            isPrivate: true,
+            collaborators: 2,
             stars: 24,
             forks: 8,
-            language: "JavaScript",
+            language: "Python",
             updatedAt: "2 days ago",
         },
         {
             id: 2,
-            name: "machine-learning-toolkit",
-            description: "Python toolkit for machine learning experiments and data analysis",
-            author: "ioanapopa",
+            name: "filesystem-ralucZ",
+            description: "SdE2 Devoir 1 - File System Simulation",
+            author: "ralucZ",
             isPrivate: true,
-            collaborators: 3,
+            collaborators: 1,
             stars: 156,
             forks: 42,
-            language: "Python",
-            updatedAt: "1 week ago",
+            language: "Rust",
+            updatedAt: "2 years ago",
         },
         {
             id: 3,
-            name: "mobile-expense-tracker",
-            description: "Cross-platform mobile app for tracking personal expenses",
-            author: "ioanapopa",
-            isPrivate: false,
-            collaborators: 2,
+            name: "rustybox-ralucZ",
+            description: "SdE2 Devoir 2 - Simulation of Linux commands",
+            author: "ralucZ",
+            isPrivate: true,
+            collaborators: 1,
             stars: 89,
             forks: 23,
-            language: "TypeScript",
-            updatedAt: "3 days ago",
+            language: "Rust",
+            updatedAt: "2 years ago",
         },
         {
             id: 4,
-            name: "api-gateway-service",
-            description: "Microservices API gateway with authentication and rate limiting",
-            author: "ioanapopa",
+            name: "Rusty Loader",
+            description: "SdE2 Devoir 3 Starter - Rusty Loader",
+            author: "ralucZ",
             isPrivate: true,
             collaborators: 1,
             stars: 12,
             forks: 3,
-            language: "Go",
-            updatedAt: "5 days ago",
+            language: "Rust",
+            updatedAt: "2 years ago",
         },
     ]
 
@@ -97,13 +97,12 @@ function MyRepos() {
 
     return (
         <div className="container">
-            {/* Header */}
+
             <Header onToggle={handleToggle} />
 
-            {/* Sidebar */}
+
             <Sidebar isOpen={isSidebarOpen} onToggle={handleToggle} onClose={handleClose} />
 
-            {/* Floating bubbles */}
             <div className="bubble"></div>
             <div className="bubble-small"></div>
             <div className="bubble-bottom"></div>
