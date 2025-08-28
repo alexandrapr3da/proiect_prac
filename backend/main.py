@@ -59,14 +59,13 @@ def login_with_github(payload: GitHubLogin, db: Session = Depends(get_db)):
 
     user = db.query(User).filter(User.github_id == gh_id).first()
     if not user:
-        user = User(username=username, github_id=gh_id, github_token=payload.github_token)  # <-- save token
+        user = User(username=username, github_id=gh_id, github_token=payload.github_token)
         db.add(user)
     else:
         user.username = username
-        user.github_token = payload.github_token  # <-- update token
+        user.github_token = payload.github_token
     db.commit()
     db.refresh(user)
 
-    # Better to use user.id instead of username in JWT
     access_token = create_access_token(sub=str(user.id))
     return {"access_token": access_token, "token_type": "bearer"}

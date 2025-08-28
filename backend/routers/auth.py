@@ -9,9 +9,8 @@ from pydantic import BaseModel
 from database import SessionLocal
 from models.models import User
 from schemas.auth import Token
-from utils.github import get_github_user, get_user_repos  # ✅ now using both
+from utils.github import get_github_user, get_user_repos
 
-# Load environment variables
 SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     raise ValueError("SECRET_KEY is not set in .env file")
@@ -29,18 +28,15 @@ def get_db():
     finally:
         db.close()
 
-# Input schema for GitHub login
 class GitHubToken(BaseModel):
     github_token: str
 
 @router.post("/token", response_model=Token)
 def login_with_github(payload: GitHubToken, db: Session = Depends(get_db)):
-    # Step 1: Validate GitHub token with GitHub API
     github_user = get_github_user(payload.github_token)
     if not github_user or "error" in github_user:
         raise HTTPException(status_code=401, detail="Invalid GitHub token")
 
-    # Step 2: Create or update user in DB
     db_user = db.query(User).filter(User.username == github_user["login"]).first()
     if not db_user:
         db_user = User(
@@ -50,11 +46,10 @@ def login_with_github(payload: GitHubToken, db: Session = Depends(get_db)):
         )
         db.add(db_user)
     else:
-        db_user.github_token = payload.github_token  # update token if re-login
+        db_user.github_token = payload.github_token
     db.commit()
     db.refresh(db_user)
 
-    # Step 3: Create JWT token for app
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     app_token = jwt.encode(
         {"sub": str(db_user.id), "exp": expire},
@@ -62,13 +57,11 @@ def login_with_github(payload: GitHubToken, db: Session = Depends(get_db)):
         algorithm=ALGORITHM
     )
 
-    # Step 4: Fetch user repositories from GitHub
     try:
         repos = get_user_repos(payload.github_token)
     except ValueError as e:
         repos = []
 
-    # Step 5: Return token, user info, and repositories
     return {
         "access_token": app_token,
         "token_type": "bearer",
@@ -80,7 +73,6 @@ def login_with_github(payload: GitHubToken, db: Session = Depends(get_db)):
         "repositories": repos
     }
 
-# Dependency: get current logged-in user from JWT
 def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)

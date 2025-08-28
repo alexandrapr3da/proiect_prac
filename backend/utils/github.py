@@ -18,10 +18,6 @@ def search_github_repos(query: str, token: str):
         return {"error": str(e)}
 
 def get_issues_from_repo(repo_full_name: str, token: str):
-    """
-    Fetch open issues from a given GitHub repository.
-    repo_full_name should be in the format 'username/repo'
-    """
     try:
         g = Github(token)
         repo = g.get_repo(repo_full_name)
@@ -38,15 +34,9 @@ def get_issues_from_repo(repo_full_name: str, token: str):
     
 
 def get_github_user(pat: str):
-    """
-    Validate a GitHub Personal Access Token by calling /user.
-    Returns dict with at least: {'login': 'username', 'id': 123456, ...}
-    Raises ValueError if invalid.
-    """
     headers = {"Authorization": f"token {pat}", "Accept": "application/vnd.github+json"}
     resp = requests.get(f"{GITHUB_API_BASE}/user", headers=headers, timeout=15)
     if resp.status_code != 200:
-        # Surface useful error message
         try:
             detail = resp.json()
         except Exception:
@@ -55,10 +45,6 @@ def get_github_user(pat: str):
     return resp.json()
 
 def get_user_repos(pat: str):
-    """
-    Fetch the authenticated user's repositories.
-    Returns list of dicts with repo info.
-    """
     headers = {"Authorization": f"token {pat}", "Accept": "application/vnd.github+json"}
     resp = requests.get(f"{GITHUB_API_BASE}/user/repos", headers=headers, timeout=15)
 

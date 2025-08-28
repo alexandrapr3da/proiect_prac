@@ -9,9 +9,8 @@ import requests
 
 router = APIRouter(prefix="/features", tags=["Features"])
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")  # still used for extracting token from header
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-# Dependency: DB session
 def get_db():
     db = SessionLocal()
     try:
@@ -19,9 +18,7 @@ def get_db():
     finally:
         db.close()
 
-# New: GitHub token-based authentication
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
-    # Validate token with GitHub API
     headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github+json"}
     response = requests.get("https://api.github.com/user", headers=headers)
 
@@ -41,10 +38,9 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
             detail="GitHub username not found"
         )
 
-    # Find or create local user
     user = db.query(User).filter(User.github_id == github_id).first()
     if not user:
-        user = User(username=username, github_id=github_id)  # password not used anymore
+        user = User(username=username, github_id=github_id)
         db.add(user)
         db.commit()
         db.refresh(user)
